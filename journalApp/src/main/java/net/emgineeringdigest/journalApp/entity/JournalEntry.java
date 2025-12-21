@@ -10,11 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Document(collection =  "journalEntry") //Mapped to that collection ofMongoDB, whose type is held by the POJO
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@ToString
 @Data
 public class JournalEntry {
     @Id

@@ -1,6 +1,6 @@
 package net.emgineeringdigest.journalApp.service;
 
-import net.emgineeringdigest.journalApp.entity.Users;
+import net.emgineeringdigest.journalApp.entity.User;
 import net.emgineeringdigest.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +23,15 @@ public class UserService {
         (Parent's reference can hold the object of the child class);
      */
 
-    public void saveEntry(Users entry){
+    public void saveEntry(User entry){
         userRepository.save(entry);
     }
 
-    public List<Users> getAll() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public Optional<Users> getById(ObjectId id) {
+    public Optional<User> getById(ObjectId id) {
         return userRepository.findById(id);
     }
 
@@ -39,7 +39,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public Users findByUserName(String userName) {
+    public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
 }
