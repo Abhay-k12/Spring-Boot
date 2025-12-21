@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Document(collection =  "journalEntry") //Mapped to that collection ofMongoDB, whose type is held by the POJO
 @Data
+@NoArgsConstructor
 public class JournalEntry {
     @Id
     private ObjectId id;
