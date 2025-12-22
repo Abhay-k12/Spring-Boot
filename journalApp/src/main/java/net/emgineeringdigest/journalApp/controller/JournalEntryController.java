@@ -40,14 +40,13 @@ public class JournalEntryController {
     }
 
     @PostMapping("{userName}")
-    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry obj, @PathVariable String userName) {
+    public ResponseEntity<?> createEntry(@RequestBody JournalEntry obj, @PathVariable String userName) {
         try {
-            obj.setDate(LocalDateTime.now());
             journalEntryService.saveEntry(obj, userName);
             return new ResponseEntity<>(obj, HttpStatus.CREATED);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Something Went Wrong", HttpStatus.BAD_REQUEST);
         }
     }
 
