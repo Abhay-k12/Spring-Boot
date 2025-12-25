@@ -38,4 +38,6 @@ public class User {
         This is very similar to the foreign key that we have studied in SQL, in which this List is having the
         reference of the id's in JournalEntries (journal_entries in DB).
      */
+
+    private List<String> roles;
 }
