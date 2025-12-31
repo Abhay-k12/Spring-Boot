@@ -17,13 +17,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /* ----------Since One single user shouldn't get all the users, so deleting this controller--------
-        @GetMapping
-        public ResponseEntity<List<User>> getAllUsers() {
-            return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
-          }
-     */
-
     @PutMapping
     public ResponseEntity<?> changeUserNameOrPassword(@RequestBody User user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

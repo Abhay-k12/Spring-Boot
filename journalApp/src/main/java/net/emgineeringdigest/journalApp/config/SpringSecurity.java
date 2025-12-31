@@ -30,7 +30,7 @@ public class SpringSecurity {
                         .requestMatchers("/journal/**","/user/**").authenticated()
                         .anyRequest().permitAll()
                 )
-                .formLogin(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults());
 
         http.csrf(AbstractHttpConfigurer::disable);   //For stateless application it is okay to have csrf disable.
         /*
@@ -68,7 +68,6 @@ public class SpringSecurity {
         return new BCryptPasswordEncoder();
     }
 }
-
 
 
 /*

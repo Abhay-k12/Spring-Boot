@@ -38,10 +38,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
-
     public Optional<User> getById(ObjectId id) {
         return userRepository.findById(id);
     }

@@ -8,11 +8,14 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/journal")
@@ -24,8 +27,11 @@ public class JournalEntryController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("{userName}")
-    public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String userName) {
+    @GetMapping("get-journal")
+    public ResponseEntity<?> getAllJournalEntriesOfUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+
         try {
             User currentUser = userService.findByUserName(userName);
             List<JournalEntry> journalEntriesList = currentUser.getJournalEntries();
@@ -39,8 +45,11 @@ public class JournalEntryController {
         }
     }
 
-    @PostMapping("{userName}")
-    public ResponseEntity<?> createEntry(@RequestBody JournalEntry obj, @PathVariable String userName) {
+    @PostMapping("create-journal")
+    public ResponseEntity<?> createEntry(@RequestBody JournalEntry obj) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+
         try {
             journalEntryService.saveEntry(obj, userName);
             return new ResponseEntity<>(obj, HttpStatus.CREATED);
@@ -50,23 +59,33 @@ public class JournalEntryController {
         }
     }
 
-    @GetMapping("/id/{myId}")  // getting the path variable (accessing the list item through id, that was given in path variable)
-    public ResponseEntity<?> getElementById(@PathVariable ObjectId myId) {
-        Optional<JournalEntry> currentEntry = journalEntryService.getById(myId);
+    @GetMapping("/id/{myId}")
+    public ResponseEntity<?> getJournalById(@PathVariable ObjectId myId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
 
-        if(currentEntry.isPresent()) {
-            return new ResponseEntity<>(currentEntry.get(), HttpStatus.OK);
+        User user = userService.findByUserName(userName);
+        List<JournalEntry> list = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).toList();
+
+        if(!list.isEmpty())  {
+            Optional<JournalEntry> currentEntry = journalEntryService.getById(myId);
+            if(currentEntry.isPresent()) {
+                return new ResponseEntity<>(currentEntry.get(), HttpStatus.OK);
+            }
         }
 
-        return new ResponseEntity<>("Esa kuch bhi nahi h db mein",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Apni Journal ki Id de, dusre ki q dekhra hai ??",HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/id/{userName}/{myId}")
-    public ResponseEntity<String> deleteRecordThroughId(@PathVariable ObjectId myId, @PathVariable String userName) {
+    @DeleteMapping("/delete-journal/{myId}")
+    public ResponseEntity<String> deleteRecordThroughId(@PathVariable ObjectId myId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+
         try {
             /*
                 Delete from journal entry will not delete it from user entry list, so manually have to tackle this.
-                That's wjy we have taken username as well to search the user and remove this entry from his list.
+                That's why we have taken username as well to search the user and remove this entry from his list.
                 (Although next time while saving a new entry, mongo will delete it automatically, but prefer to delete it on spot);
              */
             journalEntryService.deleteObjectById(myId,userName);
@@ -76,18 +95,17 @@ public class JournalEntryController {
         }
     }
 
-    @PutMapping("/id/{userName}/{myId}")  // path variable + body content to update the corresponding object related to the id.
-    public ResponseEntity<String> updateById(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry, @PathVariable String userName) {
-        JournalEntry oldEntry = journalEntryService.getById(myId).orElse(null);
+    @PutMapping("/update-journal/{myId}")  // path variable + body content to update the corresponding object related to the id.
+    public ResponseEntity<String> updateById(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
 
-        if(oldEntry !=null) {
-            oldEntry.setTitle(newEntry.getTitle()!=null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
-            oldEntry.setContent(newEntry.getContent()!=null && !newEntry.getContent().isEmpty() ? newEntry.getContent() : oldEntry.getContent());
+        User user = userService.findByUserName(userName);
+        JournalEntry oldEntry = user.getJournalEntries().stream().filter(x->x.getId().equals(myId)).toList().get(0);   // filter always returns either true or exception
 
-            //User hold the reference of the entry, so no need to alter anything in user.
-            journalEntryService.saveEntry(oldEntry);
-            return new ResponseEntity<>( "Updated!", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("hupp nahi h ye db m!", HttpStatus.NOT_FOUND);
+        oldEntry.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
+        oldEntry.setContent(newEntry.getContent()!=null && !newEntry.getContent().isEmpty() ? newEntry.getContent() : oldEntry.getContent());
+        journalEntryService.saveEntry(oldEntry);   //User hold the reference of the entry, so no need to alter anything in user.
+        return new ResponseEntity<>( "Updated!", HttpStatus.OK);
     }
 };

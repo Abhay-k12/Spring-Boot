@@ -43,8 +43,12 @@ public class JournalEntryService {
 
     public void deleteObjectById(ObjectId id, String userName) throws Exception {
         User currentUser = userService.findByUserName(userName);
-        currentUser.getJournalEntries().removeIf(x->x.getId().equals(id));
-        journalEntryRepository.deleteById(id);
+        JournalEntry deleted = (JournalEntry) currentUser.getJournalEntries().stream().filter(x->x.getId().equals(id)).toList().get(0);
+
+        currentUser.getJournalEntries().removeIf(x->x.getId().equals(deleted.getId()));
+        userService.saveEntry(currentUser);
+
+        journalEntryRepository.deleteById(deleted.getId());
     }
 
     public void saveEntry(JournalEntry journalEntry) {
