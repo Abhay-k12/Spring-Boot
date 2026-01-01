@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
@@ -28,6 +27,7 @@ public class SpringSecurity {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/journal/**","/user/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults());
@@ -48,7 +48,7 @@ public class SpringSecurity {
         return http.build();
     }
 
-    // Authentication Provider (replacement for configureGlobal)
+    // Authentication Provider
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
