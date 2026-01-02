@@ -1,7 +1,8 @@
 package net.emgineeringdigest.journalApp.service;
 
-import net.emgineeringdigest.journalApp.entity.User;
 import net.emgineeringdigest.journalApp.repository.UserRepository;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,6 +18,26 @@ public class UserServiceTests {
 
     @Autowired
     private UserRepository userRepository;
+
+    @BeforeEach  //Similarly @AfterEach
+    @Test
+    public void setup() {
+        System.out.println("This will run before running each individual test.");
+        /*
+            Example: This will run before running findUserByUsernameTest(), then will run again before
+            findUserByUsernameTest(String) and then again before test2(int a, int b, int expected);
+         */
+    }
+
+    @BeforeAll  //Similarly we have @AfterAll
+    public static void setup2(){
+        System.out.println("Mai to Papa hu, iss Duniya ka papa, sare test se pehle m chalunga");
+    }
+
+    /*
+        Example we have created a csv file with @BeforeAll and then after all test executed, we'll delete that file
+        with @AfterAll annotation.
+     */
 
     @Disabled    // when we run whole class, then this one will be skipped.
     @Test
