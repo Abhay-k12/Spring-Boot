@@ -6,11 +6,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.aot.DisabledInAotMode;
-
-import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,13 +28,14 @@ public class UserServiceTests {
     }
 
     @ParameterizedTest
-    @CsvSource({
+    @ValueSource( strings = {
             "Abhay",
             "Anshika",
             "Sunita"
     })
     public void findUserByUserNameTest(String user) {
-        assertNotNull(userRepository.findByUserName(user));
+        // If the test will fail for some name, then the given message will be shown into the terminal.
+        assertNotNull(userRepository.findByUserName(user),"User that doesn't found in Db:" + user);
     }
 
     @ParameterizedTest
@@ -46,6 +45,6 @@ public class UserServiceTests {
             "11,11,11"
     })
     public void test2(int a, int b, int expected) {
-        assertTrue(a==b && b==expected);
+        assertTrue(a==b && b==expected, "The values that are causing error are: " +a+" " +b+" "+expected);
     }
 }
