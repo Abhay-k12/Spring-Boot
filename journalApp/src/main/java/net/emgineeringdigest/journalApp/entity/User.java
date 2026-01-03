@@ -1,8 +1,6 @@
 package net.emgineeringdigest.journalApp.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -17,9 +15,10 @@ import java.util.List;
     //If Collection doesn't exist then it will automatically create it, but to generate index automatically
     you have to add ("spring.data.mongodb.auto-index-creation=true") in application.properties
 */
-
+@Builder
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     private ObjectId id;
@@ -40,4 +39,5 @@ public class User {
      */
 
     private List<String> roles;
+
 }
