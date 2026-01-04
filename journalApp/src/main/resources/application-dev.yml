@@ -1,0 +1,17 @@
+spring:
+  application:
+    name=Journal App
+  data:
+    mongodb:
+          uri: mongodb+srv://abhaykanojia51_db_user:PrKRSGwTblTnboks@cluster0.k0x4awv.mongodb.net/?appName=Cluster0
+          database: journaldb
+          auto-index-creation: true
+
+server:
+  port: 8081
+
+
+#spring.data.mongodb.host=localhost
+#spring,data.mongodb.port=27017
+#spring.data.mongodb.username=journaldb
+#spring.data.mongodb.passward=journaldb

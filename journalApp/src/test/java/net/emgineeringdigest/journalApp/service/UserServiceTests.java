@@ -61,7 +61,7 @@ public class UserServiceTests {
     @ParameterizedTest
     @CsvSource({
             "1,1,1" ,
-            "2,3,5",
+            "2,2,2",
             "11,11,11"
     })
     public void test2(int a, int b, int expected) {

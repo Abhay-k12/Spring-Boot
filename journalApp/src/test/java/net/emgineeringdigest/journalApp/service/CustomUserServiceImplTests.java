@@ -1,5 +1,6 @@
 package net.emgineeringdigest.journalApp.service;
 
+import net.emgineeringdigest.journalApp.entity.User;
 import net.emgineeringdigest.journalApp.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +9,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class CustomUserServiceImplTests {
     @Test
     public void loadUserByUsernameTest() {
         when(userRepository.findByUserName(ArgumentMatchers.anyString()))
-                .thenReturn(net.emgineeringdigest.journalApp.entity.User.builder().userName("Abhay").password("abhay").roles(new ArrayList<>()).build());
+                .thenReturn(User.builder().userName("Abhay").password("abhay").roles(new ArrayList<>()).build());
         UserDetails userDetails = userDetailsService.loadUserByUsername("Abhay");
         assertNotNull(userDetails);
     }
