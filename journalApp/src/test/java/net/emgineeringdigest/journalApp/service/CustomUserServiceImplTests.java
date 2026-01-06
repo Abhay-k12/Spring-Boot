@@ -9,7 +9,11 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.ArrayList;
 
@@ -43,3 +47,21 @@ public class CustomUserServiceImplTests {
         assertNotNull(userDetails);
     }
 }
+
+/*
+@SpringBootTest
+public class CustomUserServiceImplTests2 {
+
+    @Autowired
+    private CustomUserServiceImpl userDetailsService;
+
+    @MockBean
+    private UserRepository userRepository;
+
+    @Test
+    public void loadUserByUsernameTest() {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userRepository.findByUserName("Abhay").getUserName());
+        assertNotNull(userDetails);
+    }
+}
+*/

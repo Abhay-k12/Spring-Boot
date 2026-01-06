@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Journal App" type="Application" factoryName="Application">
+    <envs>
+      <env name="spring.profiles.active" value=" dev" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="net.emgineeringdigest.journalApp.JournalApplication" />
+    <module name="journalApp" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
