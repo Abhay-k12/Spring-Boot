@@ -1,7 +1,9 @@
 package net.engineeringdigest.journalApp.controller;
 
+import net.engineeringdigest.journalApp.apiResponse.WeatherResponse;
 import net.engineeringdigest.journalApp.service.UserService;
 import net.engineeringdigest.journalApp.entity.User;
+import net.engineeringdigest.journalApp.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private WeatherService weatherService;
 
     @PutMapping
     public ResponseEntity<?> changeUserNameOrPassword(@RequestBody User user) throws Exception {
@@ -42,6 +47,17 @@ public class UserController {
         catch(Exception e) {
             return new ResponseEntity<>("Error:" + e.toString(), HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> sayHelloWithWaether() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse body = weatherService.getWeather("Mumbai");
+
+        if(body != null) {
+            return new ResponseEntity<>("Hello" +authentication.getName()+ body.toString(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Hello" + authentication.getName() + "NO INFO ABOUT WEATHER", HttpStatus.NO_CONTENT);
     }
 }
 
