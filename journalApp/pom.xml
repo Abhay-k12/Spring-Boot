@@ -8,7 +8,7 @@
 		<version>3.4.10</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>net.emgineeringdigest</groupId>
+	<groupId>net.engineeringdigest</groupId>
 	<artifactId>journalApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Journal App</name>
