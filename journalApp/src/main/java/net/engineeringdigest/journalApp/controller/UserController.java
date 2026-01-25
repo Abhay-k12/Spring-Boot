@@ -50,12 +50,12 @@ public class UserController {
     }
 
     @GetMapping("/hello")
-    public ResponseEntity<String> sayHelloWithWaether() {
+    public ResponseEntity<String> sayHelloWithWeather() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         WeatherResponse body = weatherService.getWeather("Mumbai");
 
         if(body != null) {
-            return new ResponseEntity<>("Hello" +authentication.getName()+ body.toString(), HttpStatus.OK);
+            return new ResponseEntity<>("Hello " +authentication.getName()+ " Weather feels like " + body.getCurrent().getTemperature()+ "\nHumidity: " + body.getCurrent().getHumidity() +" \nWind Speed: " + body.getCurrent().getWindSpeed(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Hello" + authentication.getName() + "NO INFO ABOUT WEATHER", HttpStatus.NO_CONTENT);
     }
