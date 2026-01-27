@@ -14,19 +14,23 @@
 	<name>Journal App</name>
 	<description>E2EE Journal app</description>
 	<url/>
-	<licenses>
+
+    <licenses>
 		<license/>
 	</licenses>
-	<developers>
+
+    <developers>
 		<developer/>
 	</developers>
-	<scm>
+
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
 		<url/>
 	</scm>
-	<properties>
+
+    <properties>
 		<java.version>17</java.version>
 	</properties>
 
