@@ -5,9 +5,10 @@ import net.engineeringdigest.journalApp.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+@Service
 public class WeatherService {
     private static final String API_KEY = "5656cd1be6b0b04fb799a32c2616393e";
 

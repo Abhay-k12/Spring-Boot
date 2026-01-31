@@ -6,6 +6,7 @@ import net.engineeringdigest.journalApp.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -14,8 +15,9 @@ import java.util.Optional;
 
 // Here we'll have that class which will aggregate to repository package class and habe some CRUD methods.
 // These CRUD functions will then call the inbuilt Function provided by repository package
+//BUSINESS LOGIC IS WRITTEN HERE
 
-@Component
+@Service
 public class JournalEntryService {
 
     @Autowired
