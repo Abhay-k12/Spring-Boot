@@ -1,6 +1,7 @@
 package net.engineeringdigest.journalApp.service;
 
 import net.engineeringdigest.journalApp.apiResponse.WeatherResponse;
+import net.engineeringdigest.journalApp.cache.AppCache;
 import net.engineeringdigest.journalApp.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,17 +14,19 @@ public class WeatherService {
     @Value("${weather.api.key}")
     private String API_KEY;
 
-    private static final String API = "http://api.weatherstack.com/current?access_key=API_KEY&query=CITY";
+    @Autowired
+    private AppCache appCache;
 
     @Autowired
     private RestTemplate restTemplate;
 
     public WeatherResponse getWeather(String city) {
-        String finalAPI = API.replace("API_KEY",API_KEY).replace("CITY",city);
+        String API = appCache.APP_CACHE.get("weather_api");
+        String finalAPI = API.replace("<apiKey>",API_KEY).replace("<city>",city);
         ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.GET,null,WeatherResponse.class);
 
-        //  Command to get Response Code of the response
-        HttpStatusCode res = response.getStatusCode();
+        //Command to get Response Code of the response
+        //HttpStatusCode res = response.getStatusCode();
 
         return response.getBody();
     }
@@ -37,6 +40,7 @@ public class WeatherService {
         User user = User.builder().userName("Abhay").password("Anshika12@").build();
         HttpEntity<User> httpEntity = new HttpEntity<>(user,httpHeaders);
 
+        String API = appCache.APP_CACHE.get("key_name_that_will_entertain_post_api_calls");
         ResponseEntity<WeatherResponse> response= restTemplate.exchange(API,HttpMethod.POST,httpEntity,WeatherResponse.class);
 
         return response.getBody();
