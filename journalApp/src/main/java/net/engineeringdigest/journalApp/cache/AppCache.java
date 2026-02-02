@@ -15,13 +15,18 @@ import java.util.Map;
 @Data
 public class AppCache {
 
+    /*HERE WE CAN MAP OUR CONFIGS AS ENUM SO THAT EACH FIELD SHOULD REMAIN KNOWN AND TRACKED*/
+    public enum Keys {
+        WEATHER_API;
+    }
+
     @Autowired
     private ConfigJournalAppRepository configJournalAppRepository;
 
-    public Map<String,String> APP_CACHE = new HashMap<>();
-
+    public Map<String,String> APP_CACHE;
     @PostConstruct
     public void init() {
+        APP_CACHE = new HashMap<>();
         List<ConfigJournalAppEntity> all= configJournalAppRepository.findAll();
 
         for(ConfigJournalAppEntity entry: all) {
