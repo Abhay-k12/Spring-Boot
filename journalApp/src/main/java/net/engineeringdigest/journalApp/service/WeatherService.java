@@ -2,6 +2,7 @@ package net.engineeringdigest.journalApp.service;
 
 import net.engineeringdigest.journalApp.apiResponse.WeatherResponse;
 import net.engineeringdigest.journalApp.cache.AppCache;
+import net.engineeringdigest.journalApp.constants.Placeholder;
 import net.engineeringdigest.journalApp.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +22,8 @@ public class WeatherService {
     private RestTemplate restTemplate;
 
     public WeatherResponse getWeather(String city) {
-        String API = appCache.APP_CACHE.get("weather_api");
-        String finalAPI = API.replace("<apiKey>",API_KEY).replace("<city>",city);
+        String API = appCache.APP_CACHE.get(AppCache.Keys.WEATHER_API.toString());
+        String finalAPI = API.replace(Placeholder.API_KEY,API_KEY).replace(Placeholder.CITY,city);
         ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.GET,null,WeatherResponse.class);
 
         //Command to get Response Code of the response
