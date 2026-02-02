@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalApp.controller;
 
+import net.engineeringdigest.journalApp.cache.AppCache;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.service.JournalEntryService;
@@ -20,6 +21,9 @@ public class AdminController {
 
     @Autowired
     private JournalEntryService journalEntryService;
+
+    @Autowired
+    AppCache appCache;
 
     @GetMapping("/all-entries")
     public ResponseEntity<?> getAllEntries() {
@@ -46,6 +50,11 @@ public class AdminController {
         catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/clear-app-cache")
+    public void clearCache() {
+        appCache.init();
     }
 
     /*
