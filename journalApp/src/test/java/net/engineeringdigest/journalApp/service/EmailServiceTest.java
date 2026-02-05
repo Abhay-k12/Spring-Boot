@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.test.context.aot.DisabledInAotMode;
 
 @Disabled
 @SpringBootTest
@@ -20,7 +19,8 @@ public class EmailServiceTest {
 
     @ParameterizedTest
     @CsvSource({
-            "abcd@gmail.com, Sample Message, Congratulations!! Hii, hoe are you doing?"
+            "abcd@gmail.com, Sample Message, Congratulations!! Hii, hope are you doing?" ,
+            "helloJavaSpringBoot@gmail.com", "Thank you to help me", "Learning you is the onr of the good decisions"
     })
     public void testMail(String to, String subject, String body) {
         try {
