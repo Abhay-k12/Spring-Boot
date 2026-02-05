@@ -1,6 +1,5 @@
 package net.engineeringdigest.journalApp.service;
 
-import net.engineeringdigest.journalApp.entity.User;
 import org.springframework.stereotype.Service;
 
 @Service
