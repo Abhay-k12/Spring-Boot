@@ -1,7 +1,6 @@
 package net.engineeringdigest.journalApp.apiResponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.websocket.server.ServerEndpoint;
 import lombok.Getter;
 import lombok.Setter;
 
