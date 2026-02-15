@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
 @SpringBootTest   //So that Spring will create component and beans (which was previously created by @SpringBootApplication annotation);
 public class UserServiceTests {
 
