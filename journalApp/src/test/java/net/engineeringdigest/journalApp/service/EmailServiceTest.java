@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 
-@Disabled
 @SpringBootTest
 @Slf4j
 public class EmailServiceTest {
